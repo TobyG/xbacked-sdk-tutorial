@@ -11,30 +11,29 @@ const acc = new Account({network: "TestNet", mnemonic: seed});
 const vault = new Vault({id: VAULT_IDS.TestNet.algo});
 
 // 5. create vault
-/*await acc.createVault({
+await acc.createVault({
   collateral: 200,
   mintAmount: 110,
   vault
-});*/
+});
 
 // 6. fetch global vault state
-// const vaultState = await acc.getVaultState({vault});
-// console.log(vaultState);
+const vaultState = await acc.getVaultState({vault});
+console.log(vaultState);
 
 // 7. fetch data from your vault
-//const myVault = await vault.getUserInfo({account: acc, address: await acc.getAddress()});
-// console.log(myVault);
+const myVault = await vault.getUserInfo({account: acc, address: await acc.getAddress()});
+console.log(myVault);
 
 // 8. deposit more collateral into your vault
-// const succ = await acc.depositCollateral({vault: vault, amount: 10});
-// console.log("deposit of 10 ALGO was: " + succ);
+const succ = await acc.depositCollateral({vault: vault, amount: 10});
+console.log("deposit of 10 ALGO was: " + succ);
 
 // 9. get all open vaults
 const vals = await getOpenVaults({account: acc, vault});
 console.log(vals);
 
 // 10. iterate through vaults, get users vault info, liquidate a vault
-
 for (let i = 0; i < vals.length; i++) {
   const openVault = await vault.getUserInfo({account: acc, address: vals[i]});
   if(openVault.collateralRatio < vaultState.liquidationCollateralRatio && openVault.liquidating) {
